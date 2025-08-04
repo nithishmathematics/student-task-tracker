@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>🚀 Task Manager</title>
+  <link rel="stylesheet" href="/style.css">
+  <script>
+    function countdown() {
+      const timers = document.querySelectorAll('.countdown');
+      timers.forEach(timer => {
+        const deadline = new Date(timer.dataset.deadline);
+        const now = new Date();
+        const diff = deadline - now;
+
+        if (diff <= 0) {
+          timer.innerHTML = "⏰ Overdue!";
+          timer.classList.add("overdue");
+        } else {
+          const mins = Math.floor(diff / 60000);
+          const secs = Math.floor((diff % 60000) / 1000);
+          timer.innerHTML = `${mins}m ${secs}s left`;
+        }
+      });
+    }
+
+    setInterval(countdown, 1000);
+  </script>
+</head>
+<body>
+  <div class="container">
+    <h1>📅 Daily Task Planner with Alerts</h1>
+
+    <form action="/add" method="POST" class="task-form">
+      <input type="text" name="task" placeholder="Task description" required>
+      <input type="datetime-local" name="deadline" required>
+      <input type="email" name="email" placeholder="Your Email" required>
+      <input type="tel" name="phone" placeholder="Phone (10 digits)" pattern="\d{10}" required>
+      <select name="priority" required>
+        <option value="Low">🟢 Low</option>
+        <option value="Medium">🟡 Medium</option>
+        <option value="High">🔴 High</option>
+      </select>
+      <button type="submit">➕ Add Task</button>
+    </form>
+
+    <div class="filter">
+      <a href="/?filter=all" class="<%= filter==='all' ? 'active' : '' %>">All</a>
+      <a href="/?filter=pending" class="<%= filter==='pending' ? 'active' : '' %>">Pending</a>
+      <a href="/?filter=completed" class="<%= filter==='completed' ? 'active' : '' %>">Completed</a>
+    </div>
+
+    <ul class="task-list">
+      <% tasks.forEach(task => { %>
+        <li class="<%= task.priority.toLowerCase() %> <%= task.done ? 'completed' : '' %>">
+          <form class="inline-form" action="/toggle/<%= task.id %>" method="POST">
+            <button><%= task.done ? '✅' : '⬜' %></button>
+          </form>
+
+          <strong><%= task.text %></strong><br>
+          📧 <%= task.email %> | 📱 <%= task.phone %><br>
+          ⏰ <span class="countdown" data-deadline="<%= task.deadline %>"></span>
+          <div class="priority">Priority: <%= task.priority %></div>
+
+          <form class="inline-form" action="/delete/<%= task.id %>" method="POST">
+            <button class="delete-btn">❌</button>
+          </form>
+          <% if (task.overdue && !task.done) { %>
+  <div class="overdue-alert">⚠️ ALERT: This task is overdue!</div>
+<% } %>
+
+        </li>
+      <% }) %>
+    </ul>
+  </div>
+</body>
+</html>

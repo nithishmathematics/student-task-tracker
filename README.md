@@ -28,19 +28,4 @@ Live Demo: 👉 [student-task-tracker](https://student-task-tracker-463924798938
 | CI/CD         | Cloud Build Trigger (GCP)|
 | Version Ctrl  | Git + GitHub             |
 
----
 
-## 📂 Project Structure
-
-task-1/
-├── app.js
-├── Dockerfile
-├── public/
-├── routes/
-├── views/
-├── .github/workflows/
-├── package.json
-
-yaml
-Copy
-Edit

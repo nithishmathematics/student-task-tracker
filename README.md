@@ -29,3 +29,6 @@ Live Demo: 👉 [student-task-tracker](https://student-task-tracker-463924798938
 | Version Ctrl  | Git + GitHub             |
 
 
+Check The report Task_tracker.pdf for complete details
+
+
